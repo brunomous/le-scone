@@ -1,0 +1,134 @@
+// Variables
+$cols: 12;
+$gutter: 20px;
+$device-l: 1200px;
+$device-m: 760px;
+$device-s: 480px;
+
+// Box-sizing
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+// Media query mixin
+@mixin device($size) {
+  @if $size == l {
+    @media screen and (min-width: $device-l) {
+      @content;
+    }
+  } @else if $size == m {
+    @media screen and (min-width: $device-m) and (max-width: $device-l - 1) {
+      @content;
+    }
+  } @else if $size == s {
+    @media screen and (max-width: $device-m - 1) {
+      @content;
+    }
+  }
+}
+
+// Grid function
+@function grid($col, $offset: false) {
+  $width: $col / $cols * 100 + "%";
+  $result: calc(#{$width} - #{$gutter});
+  @if $offset == offset {
+    $gutter: $gutter / 2;
+    $result: calc(#{$width} + #{$gutter});
+  }
+  @return $result;
+}
+
+// Generate grid classes
+@for $i from 1 through $cols {
+  .grid-#{$i} {
+    width: grid($i);
+  }
+}
+
+// Grid structure mixin
+@mixin grid-structure {
+  float: left;
+  min-height: 1px;
+  margin: {
+    left: $gutter / 2;
+    right: $gutter / 2;
+  }
+  @include device(s) {
+    width: 100%;
+    float: none;
+    margin: {
+      left: 0px;
+      right: 0px;
+    }
+  }
+}
+
+[class^="grid-"] {
+  @include grid-structure;
+}
+
+// Generate offset classes
+@for $i from 1 through $cols {
+  .offset-#{$i} {
+    margin-left: grid($i, offset);
+    @extend %offset;
+  }
+}
+
+@include device(s) {
+  %offset {
+    margin-left: 0px;
+  }
+}
+
+// Clearfix mixin
+@mixin clearfix {
+  &::before, &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// Container mixin
+@mixin container {
+  max-width: $device-l;
+  margin: 0 auto;
+  position: relative;
+  @include device(m) {
+    max-width: $device-m;
+  }
+  @include device(s) {
+    max-width: $device-s;
+    padding: {
+      left: $gutter / 2;
+      right: $gutter / 2;
+    }
+  }
+  @include clearfix;
+}
+
+// Row mixin
+@mixin row {
+  position: relative;
+  margin: {
+    left: -$gutter / 2;
+    right: -$gutter / 2;
+  }
+  @include device(s) {
+    margin: {
+      left: 0px;
+      right: 0px;
+    }
+    @include clearfix;
+  }
+  @include clearfix;
+}
+
+.container {
+  @include container;
+}
+
+.row {
+  @include row;
+}

@@ -1,0 +1,38 @@
+// Colors
+$background: #EDECE4;
+$border: #CBC6B9;
+$ink: #2A2426;
+$ink-light: #988C77;
+
+// Fonts
+$mono: 'PT Mono', monospace;
+$serif: 'Aref Ruqaa', serif;
+
+// Typography
+@function em($pixels, $context: 16) {
+  @return $pixels / $context + em;
+}
+
+@mixin typo-1($size) {
+  font-family: $mono;
+  @if $size == 18 {
+    font-size: em(18);
+    line-height: em(30, 18);
+  }
+}
+
+@mixin typo-2($size) {
+  font-family: $serif;
+  @if $size == 18 {
+    font-size: em(18);
+    line-height: em(30, 18);
+  } @else if $size == 24 {
+    font-size: em(24);
+    line-height: em(30, 24);
+  }
+}
+
+// Box shadow
+@mixin shadow($shadow...) {
+  box-shadow: $shadow;
+}

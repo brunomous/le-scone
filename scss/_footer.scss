@@ -1,0 +1,23 @@
+footer {
+  padding: 20px 0;
+  background: $ink;
+  @include shadow(0 0 0 10px $ink);
+  p {
+    display: inline-block;
+    color: $background;
+    @include device(s) {
+      text-align: center;
+    }
+  }
+  a {
+    float: right;
+    @include device(s) {
+      float: none;
+    }
+    img {
+      @include device(s) {
+        margin: 20px auto;
+      }
+    }
+  }
+}

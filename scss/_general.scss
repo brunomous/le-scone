@@ -1,0 +1,37 @@
+body {
+  background: $background;
+  border: 10px solid $border;
+  color: $ink;
+  @include device(s) {
+    border: none;
+  }
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+p {
+  @include typo-1(18);
+}
+
+.title {
+  @include typo-1(18);
+  text-transform: uppercase;
+  @include device(s) {
+    margin-bottom: $gutter;
+  }
+  &::after {
+    content: '';
+    display: block;
+    width: 75%;
+    height: 2px;
+    background: $ink;
+    float: right;
+    margin-top: 14px;
+    @include device(m) {
+      width: 60%;
+    }
+  }
+}
